@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ROOT ACCESS</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  color: #00ff00;
+  font-family: monospace;
+  overflow: hidden;
+}
+
+/* BIG WARNING */
+#big {
+  position: fixed;
+  width: 100%;
+  top: 20%;
+  text-align: center;
+  font-size: 65px;
+  color: red;
+  animation: glitch 0.3s infinite;
+}
+
+/* SUB TEXT */
+#sub {
+  position: fixed;
+  width: 100%;
+  top: 35%;
+  text-align: center;
+  font-size: 45px;
+  color: red;
+  animation: blink 0.5s infinite;
+}
+
+@keyframes blink {
+  50% {opacity: 0;}
+}
+
+/* GLITCH EFFECT */
+@keyframes glitch {
+  0% {transform: translate(0);}
+  20% {transform: translate(-5px, 5px);}
+  40% {transform: translate(5px, -5px);}
+  60% {transform: translate(-5px, 0);}
+  80% {transform: translate(5px, 5px);}
+  100% {transform: translate(0);}
+}
+
+#terminal {
+  padding: 15px;
+  margin-top: 60vh;
+  font-size: 15px;
+  white-space: pre-line;
+}
+
+#bar {
+  position: fixed;
+  bottom: 20px;
+  left: 10%;
+  width: 80%;
+  height: 20px;
+  border: 1px solid #00ff00;
+}
+
+#progress {
+  height: 100%;
+  width: 0%;
+  background: #00ff00;
+}
+</style>
+</head>
+
+<body onclick="goFull()">
+
+<div id="big">⚠ CONGRATULATIONS ⚠</div>
+<div id="sub">YOUR ACCOUNT HAS BEEN HACKED 😈</div>
+
+<div id="terminal"></div>
+
+<div id="bar"><div id="progress"></div></div>
+
+<script>
+let term = document.getElementById("terminal");
+let progress = document.getElementById("progress");
+
+let lines = [
+"> Initializing exploit...",
+"> Connecting to remote node...",
+"> Bypassing encryption...",
+"> Injecting payload...",
+"> Accessing secure memory...",
+"> Extracting files...",
+"> Escalating privileges...",
+"> Root access granted..."
+];
+
+let i = 0;
+
+function typeLine(){
+  if(i < lines.length){
+    let line = lines[i];
+    let j = 0;
+
+    let t = setInterval(()=>{
+      term.innerHTML += line[j];
+      j++;
+      beep();
+
+      if(j >= line.length){
+        clearInterval(t);
+        term.innerHTML += "\\n";
+        i++;
+        setTimeout(typeLine, 200);
+      }
+    }, 15);
+  } else {
+    loadBar();
+  }
+}
+
+function loadBar(){
+  let p = 0;
+  let load = setInterval(()=>{
+    p++;
+    progress.style.width = p + "%";
+    shake();
+    beep();
+
+    term.innerHTML += ">>> Uploading data: " + p + "%\\n";
+
+    if(p >= 100){
+      clearInterval(load);
+      finalStage();
+    }
+  }, 50);
+}
+
+function finalStage(){
+  let flash = setInterval(()=>{
+    document.body.style.background =
+      document.body.style.background === "black" ? "darkred" : "black";
+    shake();
+    beep();
+  }, 60);
+
+  setTimeout(()=>{
+    clearInterval(flash);
+    term.innerHTML += "\\n>>> SYSTEM CONTROL ACQUIRED <<<";
+  }, 3000);
+}
+
+/* SHAKE SCREEN */
+function shake(){
+  document.body.style.transform =
+    "translate(" + (Math.random()*10-5) + "px," + (Math.random()*10-5) + "px)";
+}
+
+/* SOUND */
+function beep(){
+  let ctx = new (window.AudioContext || window.webkitAudioContext)();
+  let osc = ctx.createOscillator();
+  osc.connect(ctx.destination);
+  osc.start();
+  osc.stop(ctx.currentTime + 0.015);
+}
+
+function goFull(){
+  document.documentElement.requestFullscreen();
+}
+
+typeLine();
+</script>
+
+</body>
+</html>
